@@ -223,7 +223,7 @@ function App() {
           <div style={{ display: 'flex', gap: '15px', flexWrap: 'wrap', justifyContent: 'center' }}>
             <button className="btn-tactico btn-oscuro" onClick={() => setPantalla('registro')}>Registrar Clan</button>
             <button className="btn-tactico btn-rojo" onClick={() => setPantalla('unirse')}>Unirse a un Clan</button>
-            <button className="btn-tactico btn-oscuro" onClick={cargarClanesPublicos}>Ver Plantillas</button>
+            <button className="btn-tactico btn-oscuro" onClick={cargarClanesPublicos}>Ver Planillas</button>
             <button className="btn-tactico btn-dorado" onClick={cargarPosiciones}>🏆 Clasificación</button>
           </div>
         </>
