@@ -20,7 +20,7 @@ function App() {
   // Estados para Administración
   const [passwordAdmin, setPasswordAdmin] = useState('');
   const [clanesAdmin, setClanesAdmin] = useState([]);
-  const ADMIN_SECRET = "ZONAROJA2026"; 
+  const ADMIN_SECRET = "LaMancoMeLaSuda"; 
 
   // Estados para Clanes Públicos y Transmisión Multiplataforma
   const [clanesPublicos, setClanesPublicos] = useState([]);
