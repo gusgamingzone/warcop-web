@@ -267,7 +267,7 @@ function App() {
       {pantalla === 'clanes-publicos' && (
         <div style={{width: '100%', maxWidth: '700px'}}>
           <div style={{display:'flex', justifyContent:'space-between', marginBottom:'30px'}}>
-            <h2 style={{color:'#e60000', fontSize:'2rem', margin:0}}>EQUIPOS APROBADOS</h2>
+            <h2 className="clan-title" style={{fontSize:'2.5rem', margin:0}}>EQUIPOS APROBADOS</h2>
             <button className="btn-tactico btn-oscuro" onClick={() => setPantalla('menu')} style={{padding:'5px 15px', fontSize:'1rem'}}>Volver</button>
           </div>
           <div style={{display:'flex', flexDirection:'column', gap:'20px'}}>
