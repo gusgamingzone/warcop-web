@@ -403,17 +403,25 @@ function App() {
         </div>
       )}
 
-      {/* FOOTER GLOBAL */}
+      {/* FOOTER GLOBAL ACTUALIZADO CON ICONOS SVG */}
       <footer className="app-footer">
-        <p>
+        <p style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
           &copy; {new Date().getFullYear()}{" "}
-          <a href="https://www.tiktok.com/@gusgamingzone" target="_blank" rel="noopener noreferrer">
+          <a href="https://www.tiktok.com/@gusgamingzone" target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+            {/* ICONO TIKTOK */}
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+              <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 15.68l.06.36a6.32 6.32 0 0 0 11.41 1.78l.1-.22v-6.52a8.27 8.27 0 0 0 4.43 1.25V8.86a4.87 4.87 0 0 1-1.41-.17z" />
+            </svg>
             GusGamingZone
           </a>
         </p>
-        <p>
+        <p style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', marginTop: '5px' }}>
           Desarrollo por{" "}
-          <a href="https://wa.me/50764749094" target="_blank" rel="noopener noreferrer">
+          <a href="https://wa.me/50764749094" target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+            {/* ICONO WHATSAPP */}
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+              <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347zM12.003 21.05h-.005c-1.603 0-3.17-.431-4.545-1.246l-.326-.193-3.376.885.905-3.29-.212-.337c-.896-1.428-1.369-3.09-1.369-4.795 0-4.945 4.025-8.97 8.97-8.97 2.397 0 4.65 .934 6.345 2.628 1.694 1.694 2.627 3.947 2.627 6.342 0 4.945-4.025 8.969-8.974 8.969zM12.003 2.023C6.49 2.023 2 6.514 2 12.026c0 1.761.463 3.483 1.341 5l-1.336 4.887 4.995-1.31A9.972 9.972 0 0 0 12.003 22c5.513 0 10.003-4.49 10.003-10.003 0-5.513-4.49-10.004-10.003-10.004z"/>
+            </svg>
             KunstonAgency
           </a>
         </p>
