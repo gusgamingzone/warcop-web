@@ -27,20 +27,33 @@ function App() {
   const [streamUrl, setStreamUrl] = useState('');
   const [nuevaUrlStream, setNuevaUrlStream] = useState('');
 
-  // Cargar enlace del stream al iniciar la app
+  // Estados para Configuración Dinámica de Eventos Futuros
+  const [configEvento, setConfigEvento] = useState({
+    tituloPrincipal: 'GRAN DUELO',
+    tituloSecundario: 'ENTRE CLANES',
+    maxTitulares: 15,
+    maxSuplentes: 5
+  });
+
+  // Cargar enlaces y configuración al iniciar la app
   useEffect(() => {
-    const cargarStream = async () => {
+    const cargarDatosIniciales = async () => {
       try {
         const docSnap = await getDoc(doc(db, "configuracion", "stream"));
         if (docSnap.exists()) {
           setStreamUrl(docSnap.data().url);
           setNuevaUrlStream(docSnap.data().url);
         }
+
+        const configSnap = await getDoc(doc(db, "configuracion", "evento"));
+        if (configSnap.exists()) {
+          setConfigEvento(configSnap.data());
+        }
       } catch (error) {
-        console.error("Error cargando configuración de transmisión", error);
+        console.error("Error cargando configuración inicial", error);
       }
     };
-    cargarStream();
+    cargarDatosIniciales();
   }, []);
 
   // Función inteligente para convertir links de YouTube, Twitch o Kick a Embed
@@ -108,7 +121,9 @@ function App() {
       const clanDoc = querySnapshot.docs[0];
       const clanData = clanDoc.data();
       if (!clanData.aprobado) return alert('⏳ Clan PENDIENTE de aprobación.');
-      if (clanData.jugadores.length >= 20) return alert('⚠️ Cupos máximos alcanzados.');
+      
+      const cupoTotalMaximo = 1 + configEvento.maxTitulares + configEvento.maxSuplentes;
+      if (clanData.jugadores.length >= cupoTotalMaximo) return alert('⚠️ Cupos máximos alcanzados.');
 
       await updateDoc(doc(db, "clanes", clanDoc.id), { jugadores: arrayUnion(idJugador) });
       alert(`¡Te uniste a ${clanData.nombreClan}!`);
@@ -189,6 +204,17 @@ function App() {
     }
   };
 
+  const guardarConfiguracionEvento = async (e) => {
+    e.preventDefault();
+    try {
+      await setDoc(doc(db, "configuracion", "evento"), configEvento);
+      alert("✅ Configuración del evento actualizada con éxito.");
+    } catch (error) {
+      console.error(error);
+      alert("Hubo un error al guardar la configuración.");
+    }
+  };
+
   // --- VISTAS ---
   return (
     <div className="app-container">
@@ -216,8 +242,8 @@ function App() {
             <div style={{color:'#fff', fontSize:'1rem', letterSpacing:'5px', marginTop:'5px', fontWeight:'bold'}}>ORGANIZA</div>
           </div>
           
-          <h1 className="title-main">GRAN DUELO</h1>
-          <h2 className="title-sub">ENTRE CLANES</h2>
+          <h1 className="title-main">{configEvento.tituloPrincipal}</h1>
+          <h2 className="title-sub">{configEvento.tituloSecundario}</h2>
           <p style={{color:'#888', letterSpacing:'3px', marginBottom:'40px', textAlign: 'center'}}>COMPETENCIA CASUAL • DIVERSIÓN • ESTRATEGIA</p>
           
           <div style={{ display: 'flex', gap: '15px', flexWrap: 'wrap', justifyContent: 'center' }}>
@@ -278,10 +304,10 @@ function App() {
                 <p style={{color:'#fff', fontWeight:'bold', marginBottom:'5px'}}>👑 Capitán: {clan.capitan}</p>
                 
                 <p style={{color:'#ccc', fontSize:'0.9rem', marginBottom:'2px'}}>⚔️ Titulares:</p>
-                {clan.jugadores.slice(1,16).map((j, i) => <div key={i} style={{color:'#999', marginLeft:'20px', fontSize:'0.9rem'}}>• {j}</div>)}
+                {clan.jugadores.slice(1, 1 + configEvento.maxTitulares).map((j, i) => <div key={i} style={{color:'#999', marginLeft:'20px', fontSize:'0.9rem'}}>• {j}</div>)}
                 
                 <p style={{color:'#aaa', fontSize:'0.9rem', marginTop:'10px', marginBottom:'2px'}}>🛡️ Suplentes:</p>
-                {clan.jugadores.slice(16,20).map((j, i) => <div key={i} style={{color:'#777', marginLeft:'20px', fontSize:'0.9rem'}}>• {j}</div>)}
+                {clan.jugadores.slice(1 + configEvento.maxTitulares, 1 + configEvento.maxTitulares + configEvento.maxSuplentes).map((j, i) => <div key={i} style={{color:'#777', marginLeft:'20px', fontSize:'0.9rem'}}>• {j}</div>)}
               </div>
             ))}
           </div>
@@ -332,6 +358,31 @@ function App() {
             <button className="btn-tactico btn-oscuro" onClick={() => setPantalla('menu')} style={{padding:'5px 15px', fontSize:'1rem'}}>Cerrar Sesión</button>
           </div>
           
+          {/* CONFIGURACIÓN DE EVENTO (TÍTULOS Y CUPOS) */}
+          <div className="clan-card" style={{ borderTopColor: '#ffd700', marginBottom: '20px' }}>
+            <h3 className="clan-title">⚙️ Configuración del Evento</h3>
+            <p style={{ color: '#aaa', fontSize: '0.9rem', marginBottom: '10px' }}>Adapta los títulos y límites para futuros torneos.</p>
+            <form onSubmit={guardarConfiguracionEvento} style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+              <label style={{color: '#ccc', fontSize: '0.85rem'}}>Título Principal (Ej: GRAN DUELO):</label>
+              <input className="input-tactico" type="text" value={configEvento.tituloPrincipal} onChange={e => setConfigEvento({...configEvento, tituloPrincipal: e.target.value})} required />
+              
+              <label style={{color: '#ccc', fontSize: '0.85rem'}}>Título Secundario (Ej: ENTRE CLANES):</label>
+              <input className="input-tactico" type="text" value={configEvento.tituloSecundario} onChange={e => setConfigEvento({...configEvento, tituloSecundario: e.target.value})} required />
+              
+              <div style={{display: 'flex', gap: '10px', marginTop: '5px'}}>
+                <div style={{flex: 1}}>
+                  <label style={{color: '#ccc', fontSize: '0.85rem'}}>Máx. Titulares:</label>
+                  <input className="input-tactico" type="number" value={configEvento.maxTitulares} onChange={e => setConfigEvento({...configEvento, maxTitulares: parseInt(e.target.value) || 0})} required />
+                </div>
+                <div style={{flex: 1}}>
+                  <label style={{color: '#ccc', fontSize: '0.85rem'}}>Máx. Suplentes:</label>
+                  <input className="input-tactico" type="number" value={configEvento.maxSuplentes} onChange={e => setConfigEvento({...configEvento, maxSuplentes: parseInt(e.target.value) || 0})} required />
+                </div>
+              </div>
+              <button className="btn-tactico btn-dorado" type="submit" style={{marginTop: '10px'}}>Guardar Configuración</button>
+            </form>
+          </div>
+
           {/* CONTROL STREAM ADMIN */}
           <div className="clan-card" style={{ borderTopColor: '#ffcc00', marginBottom: '30px' }}>
             <h3 className="clan-title">🎥 Transmisión / Video Principal</h3>
@@ -375,7 +426,7 @@ function App() {
                   <p style={{margin:0, color:'#fff'}}>👑 Capitán: {clan.capitan}</p>
                   
                   <p style={{color:'#ccc', marginTop:'10px', marginBottom:'2px'}}>⚔️ Titulares:</p>
-                  {clan.jugadores.slice(1,16).map(j => (
+                  {clan.jugadores.slice(1, 1 + configEvento.maxTitulares).map(j => (
                     <div key={j} style={{display:'flex', justifyContent:'space-between', color:'#999', marginLeft:'15px'}}>
                       <span>• {j}</span>
                       <button onClick={() => eliminarMiembro(clan.id, j)} style={{background:'none', border:'none', color:'#ff3333', cursor:'pointer', fontWeight:'bold'}}>×</button>
@@ -383,7 +434,7 @@ function App() {
                   ))}
                   
                   <p style={{color:'#aaa', marginTop:'10px', marginBottom:'2px'}}>🛡️ Suplentes:</p>
-                  {clan.jugadores.slice(16,20).map(j => (
+                  {clan.jugadores.slice(1 + configEvento.maxTitulares, 1 + configEvento.maxTitulares + configEvento.maxSuplentes).map(j => (
                     <div key={j} style={{display:'flex', justifyContent:'space-between', color:'#777', marginLeft:'15px'}}>
                       <span>• {j}</span>
                       <button onClick={() => eliminarMiembro(clan.id, j)} style={{background:'none', border:'none', color:'#ff3333', cursor:'pointer', fontWeight:'bold'}}>×</button>
