@@ -354,7 +354,7 @@ function App() {
       {pantalla === 'admin-panel' && (
         <div style={{width: '100%', maxWidth: '700px'}}>
           <div style={{display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:'30px'}}>
-            <h2 className="clan-title">CONTROL ORGANIZACIÓN</h2>
+            <h3 className="clan-title">CONTROL ORGANIZACIÓN</h3>
             <button className="btn-tactico btn-oscuro" onClick={() => setPantalla('menu')} style={{padding:'5px 15px', fontSize:'1rem'}}>Cerrar Sesión</button>
           </div>
           
