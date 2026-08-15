@@ -56,7 +56,6 @@ function App() {
     cargarDatosIniciales();
   }, []);
 
-  // ESTO SOLUCIONA EL PROBLEMA DEL SCROLL:
   // Cada vez que la variable 'pantalla' cambie, sube la página automáticamente al tope.
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -128,11 +127,37 @@ function App() {
       const clanData = clanDoc.data();
       if (!clanData.aprobado) return alert('⏳ Clan PENDIENTE de aprobación.');
       
+      // === NUEVA VALIDACIÓN ANTI-DUPLICADOS Y ANTI-CLONACIÓN ===
+      const idLimpio = idJugador.trim();
+      const idUpper = idLimpio.toUpperCase();
+
+      // 1. Escanear todos los clanes para ver si el ID ya existe (ignorando mayúsculas/minúsculas)
+      const todosLosClanes = await getDocs(collection(db, "clanes"));
+      let yaRegistrado = false;
+      let clanDondeEstaRegistrado = '';
+
+      todosLosClanes.forEach(doc => {
+        const datos = doc.data();
+        if (datos.jugadores && datos.jugadores.some(j => j.toUpperCase() === idUpper)) {
+          yaRegistrado = true;
+          clanDondeEstaRegistrado = datos.nombreClan;
+        }
+      });
+
+      if (yaRegistrado) {
+        return alert(`⚠️ Este ID ya está registrado en el evento con el equipo: ${clanDondeEstaRegistrado}`);
+      }
+      // =========================================================
+
       const cupoTotalMaximo = 1 + configEvento.maxTitulares + configEvento.maxSuplentes;
       if (clanData.jugadores.length >= cupoTotalMaximo) return alert('⚠️ Cupos máximos alcanzados.');
 
-      await updateDoc(doc(db, "clanes", clanDoc.id), { jugadores: arrayUnion(idJugador) });
+      await updateDoc(doc(db, "clanes", clanDoc.id), { jugadores: arrayUnion(idLimpio) });
       alert(`¡Te uniste a ${clanData.nombreClan}!`);
+      
+      // Limpiar campos y volver al menú
+      setCodigoIngresado('');
+      setIdJugador('');
       setPantalla('menu');
     } catch (error) {
       alert('Error al unirse.');
