@@ -56,6 +56,12 @@ function App() {
     cargarDatosIniciales();
   }, []);
 
+  // ESTO SOLUCIONA EL PROBLEMA DEL SCROLL:
+  // Cada vez que la variable 'pantalla' cambie, sube la página automáticamente al tope.
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pantalla]);
+
   // Función inteligente para convertir links de YouTube, Twitch o Kick a Embed
   const obtenerEmbedUrl = (url) => {
     if (!url) return '';
