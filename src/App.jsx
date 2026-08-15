@@ -292,15 +292,69 @@ function App() {
 
       {pantalla === 'clanes-publicos' && (
         <div style={{width: '100%', maxWidth: '700px'}}>
-          <div style={{display:'flex', justifyContent:'space-between', marginBottom:'30px'}}>
+          <div style={{display:'flex', justifyContent:'space-between', marginBottom:'20px'}}>
             <h2 className="clan-title" style={{fontSize:'2.5rem', margin:0}}>EQUIPOS APROBADOS</h2>
             <button className="btn-tactico btn-oscuro" onClick={() => setPantalla('menu')} style={{padding:'5px 15px', fontSize:'1rem'}}>Volver</button>
           </div>
+
+          {/* ESTADÍSTICAS GENERALES DE INSCRIPCIÓN */}
+          {(() => {
+            const totalClanes = clanesPublicos.length;
+            const totalJugadores = clanesPublicos.reduce((total, clan) => total + (clan.jugadores ? clan.jugadores.length : 0), 0);
+            
+            return (
+              <div style={{ background: '#0a0a0a', border: '1px solid #333', borderTop: '3px solid #ffd700', borderRadius: '5px', padding: '15px', marginBottom: '30px', textAlign: 'center' }}>
+                <h3 style={{ color: '#fff', margin: '0 0 10px 0', fontSize: '1.2rem' }}>ESTADÍSTICAS DEL EVENTO</h3>
+                <div style={{ display: 'flex', justifyContent: 'center', gap: '20px', flexWrap: 'wrap', marginBottom: '15px' }}>
+                  <p style={{ color: '#aaa', margin: 0 }}>Clanes Inscritos: <strong style={{ color: '#fff', fontSize: '1.1rem' }}>{totalClanes}</strong></p>
+                  <p style={{ color: '#aaa', margin: 0 }}>Personas Inscritas: <strong style={{ color: '#fff', fontSize: '1.1rem' }}>{totalJugadores}</strong></p>
+                </div>
+                
+                <div style={{ display: 'flex', justifyContent: 'center', gap: '15px', flexWrap: 'wrap' }}>
+                  {/* Modo Resurgimiento */}
+                  <div style={{ background: '#111', border: '1px solid #222', padding: '10px', borderRadius: '5px', minWidth: '140px' }}>
+                    <p style={{ margin: '0 0 5px 0', color: '#ccc', fontSize: '0.9rem', fontWeight: 'bold' }}>Resurgimiento</p>
+                    <p style={{ margin: '0 0 5px 0', color: '#fff' }}>{totalJugadores} / 35</p>
+                    <p style={{ margin: 0, fontSize: '0.75rem', color: totalJugadores >= 35 ? '#00ff00' : '#ff3333' }}>
+                      {totalJugadores >= 35 ? '(Mínimo Alcanzado)' : '(Mínimo No alcanzado)'}
+                    </p>
+                  </div>
+
+                  {/* Modo Battle Royale */}
+                  <div style={{ background: '#111', border: '1px solid #222', padding: '10px', borderRadius: '5px', minWidth: '140px' }}>
+                    <p style={{ margin: '0 0 5px 0', color: '#ccc', fontSize: '0.9rem', fontWeight: 'bold' }}>Battle Royale</p>
+                    <p style={{ margin: '0 0 5px 0', color: '#fff' }}>{totalJugadores} / 50</p>
+                    <p style={{ margin: 0, fontSize: '0.75rem', color: totalJugadores >= 50 ? '#00ff00' : '#ff3333' }}>
+                      {totalJugadores >= 50 ? '(Mínimo Alcanzado)' : '(Mínimo No alcanzado)'}
+                    </p>
+                  </div>
+
+                  {/* Modo Botín */}
+                  <div style={{ background: '#111', border: '1px solid #222', padding: '10px', borderRadius: '5px', minWidth: '140px' }}>
+                    <p style={{ margin: '0 0 5px 0', color: '#ccc', fontSize: '0.9rem', fontWeight: 'bold' }}>Botín</p>
+                    <p style={{ margin: '0 0 5px 0', color: '#fff' }}>{totalJugadores} / 30</p>
+                    <p style={{ margin: 0, fontSize: '0.75rem', color: totalJugadores >= 30 ? '#00ff00' : '#ff3333' }}>
+                      {totalJugadores >= 30 ? '(Mínimo Alcanzado)' : '(Mínimo No alcanzado)'}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            );
+          })()}
+
           <div style={{display:'flex', flexDirection:'column', gap:'20px'}}>
             {clanesPublicos.map(clan => (
               <div key={clan.id} className="clan-card">
-                <h3 className="clan-title">{clan.nombreClan} <span style={{color:'#e60000'}}>{clan.insignia}</span></h3>
-                <p style={{color:'#aaa', margin:'0 0 15px 0'}}>Uniforme: {clan.uniforme}</p>
+                
+                {/* CONTADOR POR EQUIPO */}
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+                  <h3 className="clan-title" style={{ margin: 0 }}>{clan.nombreClan} <span style={{color:'#e60000'}}>{clan.insignia}</span></h3>
+                  <span style={{ background: '#222', padding: '3px 8px', borderRadius: '3px', fontSize: '0.8rem', color: '#ffd700', border: '1px solid #444' }}>
+                    Inscritos: {clan.jugadores ? clan.jugadores.length : 0} / {1 + configEvento.maxTitulares + configEvento.maxSuplentes}
+                  </span>
+                </div>
+                
+                <p style={{color:'#aaa', margin:'5px 0 15px 0'}}>Uniforme: {clan.uniforme}</p>
                 <p style={{color:'#fff', fontWeight:'bold', marginBottom:'5px'}}>👑 Capitán: {clan.capitan}</p>
                 
                 <p style={{color:'#ccc', fontSize:'0.9rem', marginBottom:'2px'}}>⚔️ Titulares:</p>
