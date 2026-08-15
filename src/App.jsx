@@ -400,7 +400,7 @@ function App() {
             </form>
           </div>
 
-          <h3 className="clan-title" style={{ marginTop: '50px', borderBottom: '1px solid #333', paddingBottom: '10px', color: '#888' }}>GESTIÓN DE CLANES</h3>
+          <h3 className="clan-title" style={{ marginTop: '60px', borderBottom: '1px solid #333', paddingBottom: '20px', color: '#888' }}>GESTIÓN DE CLANES</h3>
           <div style={{display:'flex', flexDirection:'column', gap:'20px'}}>
             {clanesAdmin.map(clan => (
               <div key={clan.id} className="clan-card" style={{borderTopColor: clan.aprobado ? '#00aa00' : '#e60000'}}>
