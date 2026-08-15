@@ -311,15 +311,6 @@ function App() {
                 </div>
                 
                 <div style={{ display: 'flex', justifyContent: 'center', gap: '15px', flexWrap: 'wrap' }}>
-                  {/* Modo Resurgimiento */}
-                  <div style={{ background: '#111', border: '1px solid #222', padding: '10px', borderRadius: '5px', minWidth: '140px' }}>
-                    <p style={{ margin: '0 0 5px 0', color: '#ccc', fontSize: '0.9rem', fontWeight: 'bold' }}>Resurgimiento</p>
-                    <p style={{ margin: '0 0 5px 0', color: '#fff' }}>{totalJugadores} / 35</p>
-                    <p style={{ margin: 0, fontSize: '0.75rem', color: totalJugadores >= 35 ? '#00ff00' : '#ff3333' }}>
-                      {totalJugadores >= 35 ? '(Mínimo Alcanzado)' : '(Mínimo No alcanzado)'}
-                    </p>
-                  </div>
-
                   {/* Modo Battle Royale */}
                   <div style={{ background: '#111', border: '1px solid #222', padding: '10px', borderRadius: '5px', minWidth: '140px' }}>
                     <p style={{ margin: '0 0 5px 0', color: '#ccc', fontSize: '0.9rem', fontWeight: 'bold' }}>Battle Royale</p>
@@ -329,12 +320,30 @@ function App() {
                     </p>
                   </div>
 
-                  {/* Modo Botín */}
+                  {/* Modo Black Ops Royale */}
                   <div style={{ background: '#111', border: '1px solid #222', padding: '10px', borderRadius: '5px', minWidth: '140px' }}>
-                    <p style={{ margin: '0 0 5px 0', color: '#ccc', fontSize: '0.9rem', fontWeight: 'bold' }}>Botín</p>
-                    <p style={{ margin: '0 0 5px 0', color: '#fff' }}>{totalJugadores} / 30</p>
-                    <p style={{ margin: 0, fontSize: '0.75rem', color: totalJugadores >= 30 ? '#00ff00' : '#ff3333' }}>
-                      {totalJugadores >= 30 ? '(Mínimo Alcanzado)' : '(Mínimo No alcanzado)'}
+                    <p style={{ margin: '0 0 5px 0', color: '#ccc', fontSize: '0.9rem', fontWeight: 'bold' }}>Black Ops Royale</p>
+                    <p style={{ margin: '0 0 5px 0', color: '#fff' }}>{totalJugadores} / 50</p>
+                    <p style={{ margin: 0, fontSize: '0.75rem', color: totalJugadores >= 50 ? '#00ff00' : '#ff3333' }}>
+                      {totalJugadores >= 50 ? '(Mínimo Alcanzado)' : '(Mínimo No alcanzado)'}
+                    </p>
+                  </div>
+
+                  {/* Modo Resurgimiento */}
+                  <div style={{ background: '#111', border: '1px solid #222', padding: '10px', borderRadius: '5px', minWidth: '140px' }}>
+                    <p style={{ margin: '0 0 5px 0', color: '#ccc', fontSize: '0.9rem', fontWeight: 'bold' }}>Resurgimiento</p>
+                    <p style={{ margin: '0 0 5px 0', color: '#fff' }}>{totalJugadores} / 35</p>
+                    <p style={{ margin: 0, fontSize: '0.75rem', color: totalJugadores >= 35 ? '#00ff00' : '#ff3333' }}>
+                      {totalJugadores >= 35 ? '(Mínimo Alcanzado)' : '(Mínimo No alcanzado)'}
+                    </p>
+                  </div>
+
+                  {/* Modo Ranked */}
+                  <div style={{ background: '#111', border: '1px solid #222', padding: '10px', borderRadius: '5px', minWidth: '140px' }}>
+                    <p style={{ margin: '0 0 5px 0', color: '#ccc', fontSize: '0.9rem', fontWeight: 'bold' }}>Ranked</p>
+                    <p style={{ margin: '0 0 5px 0', color: '#fff' }}>{totalJugadores} / 35</p>
+                    <p style={{ margin: 0, fontSize: '0.75rem', color: totalJugadores >= 35 ? '#00ff00' : '#ff3333' }}>
+                      {totalJugadores >= 35 ? '(Mínimo Alcanzado)' : '(Mínimo No alcanzado)'}
                     </p>
                   </div>
                 </div>
